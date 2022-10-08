@@ -1,6 +1,8 @@
 // Requred dependencies
 var read = require('readline-sync');
 var score = 0;
+var wrongAns = 0;
+var correctAns = 0;
 
 // Current player Data
 var currentUser = {
@@ -10,8 +12,8 @@ var currentUser = {
 
 // Data of high score
 var highScores = [
-  { name: "HarryStyle", score: 9, },
-  { name: "Harikesh Patel", score: 7, },
+  { name: "1. HarryStyle", score: 9, },
+  { name: "2. Harikesh Patel", score: 7, },
 ];
 
 // Data for GamePlay
@@ -60,11 +62,11 @@ c) Cull Obsidian
 d) Gamora \n\n`
 
 var QAlist = [
-  { question: "1. Who is SuperVillain in Avengers: Infinity War? \n\n" + q1, answer: "b" },
-  { question: "2. Who was behind the TVA in Loki? \n\n" + q2, answer: "a" },
-  { question: "3. Who is the bad guy in Guardians of the Galaxy? \n\n" + q3, answer: "d" },
-  { question: "4. Who played the role of SuperVillain in Thor: Love & Thunder? \n\n" + q4, answer: "c" },
-  { question: "5. Which SuperHero is died in Avengers: End Game? \n\n" + q5, answer: "b" },
+  { question: "1. Who is SuperVillain in 'Avengers: Infinity War'? \n\n" + q1, answer: "b" },
+  { question: "2. Who was behind the TVA in 'Loki'? \n\n" + q2, answer: "a" },
+  { question: "3. Who is the bad guy in 'Guardians of the Galaxy'? \n\n" + q3, answer: "d" },
+  { question: "4. Who played the role of SuperVillain in 'Thor: Love & Thunder'? \n\n" + q4, answer: "c" },
+  { question: "5. Which SuperHero is died in 'Avengers: End Game'? \n\n" + q5, answer: "b" },
   { question: "6. What is the name of Iron Mans AI Bot? \n\n" + q6, answer: "c" },
   { question: "7. What is Captain America’s shield made of? \n\n" + q7, answer: "b" },
   { question: "8. What is the alien race Loki sends to invade Earth in The Avengers? \n\n" + q8, answer: "a" },
@@ -74,18 +76,29 @@ var QAlist = [
   { question: "12. Whom does the Mad Titan sacrifice to acquire the Soul Stone? \n\n" + q12, answer: "d" },
 ];
 
-// play function
+// Titlize user name
+function titleCase(str) {
+  return str.toLowerCase().split(' ').map(function(word) {
+    return word.replace(word[0], word[0].toUpperCase());
+  }).join(' ');
+}
+
+// Intro function
 function welcome() {
   var user = read.question("Hi there! Please enter your name : ");
-  var input = read.question('\nWould you like to play a game called "do you know MCU" : ').toLowerCase();
+  var input = read.question("\nWould you like to play a game called 'DO YOU KNOW MCU' (Y/N) : ");
 
   if (user !== "") {
     currentUser.userName = user;
   }
-  if (input === "yes" || input === "y") {
-    console.log("\nHurrah!! here we go....\n\n")
+  currentUser.userName = titleCase(currentUser.userName);
+  if (input.toUpperCase() === "YES" || input.toUpperCase() === "Y") {
+    console.log("\nEnter 'a' or 'b' or 'c' or 'd' as your answer accordingly..");
+    console.log("\nHurrah!! here we go " + currentUser.userName + "....\n\n")
   } else {
-    console.log("\nLets play only once...\n\n")
+    console.log("\nLets play only once " + currentUser.userName + ".")
+    console.log("Enter 'a' or 'b' or 'c' or 'd' as your answer accordingly..");
+    console.log("\nHere we go " + currentUser.userName + "....\n\n")
   }
 };
 
@@ -93,15 +106,21 @@ function welcome() {
 function play(question, answer) {
 
   var userAnswer = read.question(question);
-  if (userAnswer.toUpperCase() === answer.toUpperCase()) {
-    console.log("\nRight!");
-    score = score + 1;
-  } else {
-    console.log("\nWrong!");
-  }
 
-  console.log("Current score : ", score);
-  console.log("--------------\n\n")
+  if (userAnswer.toUpperCase() === answer.toUpperCase()) {
+    console.log("\nGood Job!");
+    correctAns = correctAns + 1;
+    score = score + 1;
+  } else if (userAnswer === "") {
+    console.log("\nNo Selection!");
+  } else {
+    console.log("\nNice Try!");
+    wrongAns = wrongAns + 1;
+  }
+  console.log("\nWrong Answers : ", wrongAns);
+  console.log("Correct Answers : ", correctAns);
+  console.log("Current Score : ", score);
+  console.log("---------------------\n\n")
 }
 
 // GamePlay function
@@ -121,11 +140,11 @@ async function showScores() {
   await sleep(3000);
   console.log("-:)  -:)   -:)    -:)     -:)      -:)        -:)\n\n");
   await sleep(2000);
-  
-  console.log("Wow! " + currentUser.userName + " you have SCORED to", score, "out of", 12);
+
+  console.log("Wow! " + currentUser.userName + " you have SCORED to", score, "/", 12);
   await sleep(5000);
   console.log("\nPlease check out the high scores below. If you should be there plz mail me (harikeshpatel24@gmail.com) your high score screenshot, I'll update it and will let you know.\n");
-await sleep(2000);
+  await sleep(2000);
   highScores.map(score => console.log(score.name, " : ", score.score))
   console.log("\n");
 }
