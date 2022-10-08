@@ -2,7 +2,7 @@
 Recent update September, 2022
 Do you know marvel cinematic universe? Let's play a quiz and see.
 
-![image](https://user-images.githubusercontent.com/43793294/194689924-29bef848-b67c-4066-b552-736ebbe55832.png)
+![image](https://user-images.githubusercontent.com/43793294/194690727-e095f387-2781-46e5-ab42-36dd6e08ef3f.png)
 
 # Programming Language:
 
